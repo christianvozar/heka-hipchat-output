@@ -101,7 +101,7 @@ func (ho *HipchatOutput) sendMessage(mc string) error {
 func (ho *HipchatOutput) Init(config interface{}) (err error) {
 	ho.conf = config.(*HipchatOutputConfig)
 
-	if ho.conf.RoomId == nil {
+	if ho.conf.RoomId == "" {
 		return fmt.Errorf("room_id must contain a HipChat room ID or name")
 	}
 
