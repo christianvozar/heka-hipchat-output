@@ -35,7 +35,7 @@ type HipchatOutput struct {
 type HipchatOutputConfig struct {
 	// Outputs the payload attribute in the HipChat message vs a full JSON message dump
 	PayloadOnly bool `toml:"payload_only"`
-	// Url for HttpInput to GET.
+	// HipChat Authorization token. Notification token is appropriate.
 	AuthToken string `toml:"auth_token"`
 	// Required. ID or name of the room.
 	RoomId string `toml:"room_id"`
