@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"github.com/mozilla-services/heka/message"
 	. "github.com/mozilla-services/heka/pipeline"
-	"ioutil"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 )
