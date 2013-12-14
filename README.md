@@ -11,3 +11,4 @@ add_external_plugin(git https://github.com/christianvozar/heka-hipchat-output ma
 
 Then build Heka per normal instructions for your platform.
 
+Additional instructions can be found in the [Heka documentation for external plugins](http://hekad.readthedocs.org/en/latest/installing.html#build-include-externals).
