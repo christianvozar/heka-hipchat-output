@@ -16,9 +16,11 @@ package hipchat
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/mozilla-services/heka/message"
 	. "github.com/mozilla-services/heka/pipeline"
+	"ioutil"
 	"net/http"
 	"net/url"
 )
@@ -61,7 +63,7 @@ func (ho *HipchatOutput) ConfigStruct() interface{} {
 }
 
 func (ho *HipchatOutput) sendMessage(mc string) error {
-	messageUri := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.conf.url, url.QueryEscape(ho.conf.AuthToken))
+	messageUri := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.url, url.QueryEscape(ho.conf.AuthToken))
 
 	messagePayload := url.Values{
 		"room_id":        {ho.conf.RoomId},
@@ -103,8 +105,8 @@ func (ho *HipchatOutput) Init(config interface{}) (err error) {
 		return fmt.Errorf("room_id must contain a HipChat room ID or name")
 	}
 
-	ho.conf.url = "https://api.hipchat.com/v1"
-	ho.conf.format = "text"
+	ho.url = "https://api.hipchat.com/v1"
+	ho.format = "text"
 	return
 }
 
