@@ -92,7 +92,7 @@ func (ho *HipchatOutput) sendMessage(mc string) error {
 		return err
 	}
 	if messageResponse.Status != "sent" {
-		return errors.New("HipchatOutput: Status response was not sent.")
+		return errors.New("Status response was not sent.")
 	}
 
 	return nil
