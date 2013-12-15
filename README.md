@@ -4,14 +4,15 @@ A Mozilla Heka Output for Atlassian's HipChat.
 
 # Installation
 
-You will need an authentication token from Atlassian for HipChat's API. Follow [the directions](https://www.hipchat.com/docs/api/auth) in the HipChat API documentation.  A notification token will sufffice.
+* You will need an authentication token from Atlassian for HipChat's API. Follow [the directions](https://www.hipchat.com/docs/api/auth) in the HipChat API documentation.  A notification token will sufffice.
 
-Create or add to the file {heka_root}/cmake/plugin_loader.cmake
+* Create or add to the file {heka_root}/cmake/plugin_loader.cmake
+
 ```
 add_external_plugin(git https://github.com/christianvozar/heka-hipchat-output master)
 ```
 
-Then build Heka per normal instructions for your platform.
+* Build Heka per normal instructions for your platform.
 
 Additional instructions can be found in the [Heka documentation for external plugins](http://hekad.readthedocs.org/en/latest/installing.html#build-include-externals).
 
