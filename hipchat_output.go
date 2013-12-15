@@ -107,6 +107,10 @@ func (ho *HipchatOutput) Init(config interface{}) (err error) {
 		return fmt.Errorf("room_id must contain a HipChat room ID or name")
 	}
 
+	if len(ho.conf.From) > 15 {
+		return fmt.Errorf("from must be less than 15 characters")
+	}
+
 	ho.url = "https://api.hipchat.com/v1"
 	ho.format = "text"
 	return
