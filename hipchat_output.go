@@ -83,6 +83,16 @@ func (ho *HipchatOutput) sendMessage(mc string) error {
 	if err != nil {
 		return err
 	}
+
+	switch resp.StatusCode {
+	case 403:
+		return errors.New("Rate limit exceeded.")
+	case 401:
+		return errors.New("Provided authentication rejected.")
+	case 503:
+		return errors.New("Service unavailable.")
+	}
+
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
