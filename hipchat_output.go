@@ -90,10 +90,16 @@ func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
 	}
 
 	switch resp.StatusCode {
-	case 403:
-		return errors.New("Rate limit exceeded.")
+	case 400:
+		return errors.New("Bad request.")
 	case 401:
 		return errors.New("Provided authentication rejected.")
+	case 403:
+		return errors.New("Rate limit exceeded.")
+	case 406:
+		return errors.New("Message contains invalid content type.")
+	case 500:
+		return errors.New("Internal server error.")
 	case 503:
 		return errors.New("Service unavailable.")
 	}
