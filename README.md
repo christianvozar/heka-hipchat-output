@@ -35,9 +35,6 @@ Additional instructions can be found in the [Heka documentation for external plu
     Whether or not this message should trigger a notification for people in the room (change the tab color, play a sound, etc).
     Each recipient's notification preferences are taken into account.
     (default: false)
-- color (string, optional)
-    Background color of message within HipChat.
-    (default: "gray")
 
 ## Example HipChat Output Configuration File
 
@@ -48,5 +45,4 @@ payload_only = false
 auth_token = ""
 room_id = "Notifications"
 notify = true
-color = "gray"
 ```

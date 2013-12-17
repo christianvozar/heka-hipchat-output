@@ -49,10 +49,6 @@ type HipchatOutputConfig struct {
 	// Each recipient's notification preferences are taken into account.
 	// Default is false
 	Notify bool
-	// Background color for message.
-	// One of "yellow", "red", "green", "purple", "gray", or "random".
-	// Default is gray
-	Color string
 }
 
 func (ho *HipchatOutput) ConfigStruct() interface{} {
@@ -60,23 +56,32 @@ func (ho *HipchatOutput) ConfigStruct() interface{} {
 		PayloadOnly: true,
 		From:        "Heka",
 		Notify:      false,
-		Color:       "gray",
 	}
 }
 
-func (ho *HipchatOutput) sendMessage(mc string) error {
+func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
 	messageUri := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.url, url.QueryEscape(ho.conf.AuthToken))
 
 	messagePayload := url.Values{
 		"room_id":        {ho.conf.RoomId},
 		"from":           {ho.conf.From},
 		"message":        {mc},
-		"color":          {ho.conf.Color},
 		"message_format": {ho.format},
 	}
 
 	if ho.conf.Notify == true {
 		messagePayload.Add("notify", "1")
+	}
+
+	switch s {
+	case 0, 1, 2, 3:
+		messagePayload.Add("color", "red")
+	case 4:
+		messagePayload.Add("color", "yellow")
+	case 5, 6:
+		messagePayload.Add("color", "green")
+	default:
+		messagePayload.Add("color", "gray")
 	}
 
 	resp, err := http.PostForm(messageUri, messagePayload)
@@ -114,11 +119,11 @@ func (ho *HipchatOutput) Init(config interface{}) (err error) {
 	ho.conf = config.(*HipchatOutputConfig)
 
 	if ho.conf.RoomId == "" {
-		return fmt.Errorf("room_id must contain a HipChat room ID or name")
+		return fmt.Errorf("room_id must contain a HipChat room ID or name.")
 	}
 
 	if len(ho.conf.From) > 15 {
-		return fmt.Errorf("from must be less than 15 characters")
+		return fmt.Errorf("from must be less than 15 characters.")
 	}
 
 	ho.url = "https://api.hipchat.com/v1"
@@ -138,10 +143,10 @@ func (ho *HipchatOutput) Run(or OutputRunner, h PluginHelper) (err error) {
 	for pack = range inChan {
 		msg = pack.Message
 		if ho.conf.PayloadOnly {
-			err = ho.sendMessage(msg.GetPayload())
+			err = ho.sendMessage(msg.GetPayload(), msg.GetSeverity())
 		} else {
 			if contents, err = json.Marshal(msg); err == nil {
-				err = ho.sendMessage(string(contents))
+				err = ho.sendMessage(string(contents), msg.GetSeverity())
 			} else {
 				or.LogError(err)
 			}
