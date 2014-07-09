@@ -30,7 +30,7 @@ type HipchatOutputConfig struct {
 	// HipChat Authorization token. Notification token is appropriate.
 	AuthToken string `toml:"auth_token"`
 	// Required. ID or name of the room.
-	RoomId string `toml:"room_id"`
+	RoomID string `toml:"room_id"`
 	// Required. Name the message will appear be sent. Must be less than 15
 	// characters long. May contain letters, numbers, -, _, and spaces.
 	From string
@@ -53,7 +53,7 @@ func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
 	messageUri := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.url, url.QueryEscape(ho.conf.AuthToken))
 
 	messagePayload := url.Values{
-		"room_id":        {ho.conf.RoomId},
+		"room_id":        {ho.conf.RoomID},
 		"from":           {ho.conf.From},
 		"message":        {mc},
 		"message_format": {ho.format},
@@ -114,7 +114,7 @@ func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
 func (ho *HipchatOutput) Init(config interface{}) (err error) {
 	ho.conf = config.(*HipchatOutputConfig)
 
-	if ho.conf.RoomId == "" {
+	if ho.conf.RoomID == "" {
 		return fmt.Errorf("room_id must contain a HipChat room ID or name.")
 	}
 
