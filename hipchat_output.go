@@ -128,6 +128,10 @@ func (ho *HipchatOutput) Init(config interface{}) (err error) {
 }
 
 func (ho *HipchatOutput) Run(or OutputRunner, h PluginHelper) (err error) {
+	if or.Encoder() == nil {
+		return errors.New("Encoder required.")
+	}
+
 	inChan := or.InChan()
 
 	var (
@@ -137,19 +141,24 @@ func (ho *HipchatOutput) Run(or OutputRunner, h PluginHelper) (err error) {
 	)
 
 	for pack = range inChan {
-		msg = pack.Message
-		if ho.conf.PayloadOnly {
-			err = ho.sendMessage(msg.GetPayload(), msg.GetSeverity())
+		if _, err = or.Encode(pack); err != nil {
+			or.LogError(fmt.Errorf("Error encoding message: %s", err))
 		} else {
-			if contents, err = json.Marshal(msg); err == nil {
-				err = ho.sendMessage(string(contents), msg.GetSeverity())
+			msg = pack.Message
+			if ho.conf.PayloadOnly {
+				err = ho.sendMessage(msg.GetPayload(), msg.GetSeverity())
 			} else {
+				if contents, err = json.Marshal(msg); err == nil {
+					err = ho.sendMessage(string(contents), msg.GetSeverity())
+				} else {
+					or.LogError(err)
+				}
+			}
+			if err != nil {
 				or.LogError(err)
 			}
 		}
-		if err != nil {
-			or.LogError(err)
-		}
+
 		pack.Recycle()
 	}
 	return
