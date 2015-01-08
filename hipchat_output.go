@@ -16,6 +16,7 @@ import (
 )
 
 const (
+	// Atlassian HipChat API Version
 	HipChatAPIVersion = "v1"
 )
 
@@ -26,7 +27,7 @@ type HipchatOutput struct {
 	format string
 }
 
-// Hipchat Output config struct
+// Hipchat Output Configuration via Heka TOML
 type HipchatOutputConfig struct {
 	// Outputs the payload attribute in the HipChat message vs a full JSON message dump
 	PayloadOnly bool `toml:"payload_only"`
