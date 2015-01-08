@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	// Atlassian HipChat API Version
+	// HipChatAPIVersion is the Atlassian HipChat API Version to utilize.
 	HipChatAPIVersion = "v1"
 )
 
