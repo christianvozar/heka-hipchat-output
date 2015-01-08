@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 // http://opensource.org/licenses/MIT
 
-// Code based on Atlassian HipChat API v1.
-
 package hipchat
 
 import (
@@ -15,6 +13,10 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+)
+
+const (
+	HipChatAPIVersion = "v1"
 )
 
 // HipchatOutput maintains high-level configuration options for the plugin.
@@ -123,7 +125,7 @@ func (ho *HipchatOutput) Init(config interface{}) (err error) {
 		return fmt.Errorf("from must be less than 15 characters")
 	}
 
-	ho.url = "https://api.hipchat.com/v1"
+	ho.url = fmt.Sprintf("https://api.hipchat.com/%s", HipChatAPIVersion)
 	ho.format = "text"
 	return
 }
