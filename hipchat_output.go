@@ -27,7 +27,7 @@ type HipchatOutput struct {
 	format string
 }
 
-// Hipchat Output Configuration via Heka TOML
+// HipchatOutputConfig is populated via Heka and TOML configuration files.
 type HipchatOutputConfig struct {
 	// Outputs the payload attribute in the HipChat message vs a full JSON message dump
 	PayloadOnly bool `toml:"payload_only"`
