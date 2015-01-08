@@ -1,5 +1,6 @@
-// Copyright 2014, Christian Vozar
+// Copyright © 2014-2015, Christian Vozar
 // Licensed under the MIT License.
+// http://opensource.org/licenses/MIT
 
 // Code based on Atlassian HipChat API v1.
 
