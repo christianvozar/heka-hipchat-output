@@ -1,6 +1,6 @@
 # HipChat Output for Mozilla Heka
 
-A Mozilla Heka Output for Atlassian's HipChat.
+A Mozilla Heka Output for Atlassian's [HipChat](https://www.atlassian.com/software/hipchat).
 
 # Installation
 
