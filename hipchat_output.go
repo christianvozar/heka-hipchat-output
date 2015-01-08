@@ -51,7 +51,7 @@ func (ho *HipchatOutput) ConfigStruct() interface{} {
 }
 
 func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
-	messageUri := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.url, url.QueryEscape(ho.conf.AuthToken))
+	messageURI := fmt.Sprintf("%s/rooms/message?auth_token=%s", ho.url, url.QueryEscape(ho.conf.AuthToken))
 
 	messagePayload := url.Values{
 		"room_id":        {ho.conf.RoomID},
@@ -75,7 +75,7 @@ func (ho *HipchatOutput) sendMessage(mc string, s int32) error {
 		messagePayload.Add("color", "gray")
 	}
 
-	resp, err := http.PostForm(messageUri, messagePayload)
+	resp, err := http.PostForm(messageURI, messagePayload)
 	if err != nil {
 		return err
 	}
